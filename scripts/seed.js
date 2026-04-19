@@ -3,7 +3,19 @@ const mongoose = require('mongoose');
 const Product  = require('../models/Product');
 const Category = require('../models/Category');
 const Admin    = require('../models/Admin');
-const rawProducts = require('../../data/products.json');
+
+// Products data embedded directly (no external file dependency)
+const rawProducts = [
+  { title: 'Hayward Super Pump', description: 'Exceptionally quiet and highly efficient American pump, favored for luxury residential setups.', category: 'cat-pumps', brand: 'brand-hayward', image: 'assets/images/61Hnd9NHhSL._AC_SL1500_.jpg', brandName: 'Hayward' },
+  { title: 'AstralPool Cantabric Filter', description: 'Premium Spanish fiberglass filter known for longevity in commercial applications.', category: 'cat-filters', brand: 'brand-astral', image: 'assets/images/81Iws8JVg3L._AC_SL1500_.jpg', brandName: 'AstralPool' },
+  { title: 'Aqua Motor Pump', description: 'Italian engineered motor pump for reliable daily circulation in oversized pools and resorts.', category: 'cat-pumps', brand: 'brand-aqua', image: 'assets/images/81bnYR7YntL._AC_SL1500_.jpg', brandName: 'Aqua' },
+  { title: 'Max Pool Sand Filter 600mm', description: 'Exclusive robust fiberglass sand filter operating under high pressure for superior water clarity.', category: 'cat-filters', brand: 'brand-maxpool', image: 'assets/images/WhatsApp Image 2026-01-06 at 12.26.48 PM.jpeg', brandName: 'Max Pool' },
+  { title: 'Underwater LED LumiPlus', description: 'High-efficiency LED lighting creating brilliant ambiance inside your swimming pool at night.', category: 'cat-lights', brand: 'brand-astral', image: 'assets/images/520276190_1298604181995169_2797115034299634446_n.jpg', brandName: 'AstralPool' },
+  { title: 'Hayward ColorLogic', description: 'Vibrant, automated color-changing LED pool and spa lights.', category: 'cat-lights', brand: 'brand-hayward', image: 'assets/images/527821586_1312263843962536_8274387280723726163_n.jpg', brandName: 'Hayward' },
+  { title: 'Stainless Steel Ladder', description: 'Grade 316 stainless steel ladder, immune to heavy chlorination and oxidation.', category: 'cat-ladders', brand: 'brand-astral', image: 'assets/images/527922419_1312263943962526_999507048525190661_n.jpg', brandName: 'AstralPool' },
+  { title: 'Premium Cleaning Kit', description: 'Complete set of telescopic poles, brushes, deep nets, and vacuum heads for manual cleaning.', category: 'cat-cleaners', brand: 'brand-maxpool', image: 'assets/images/528064106_1312263847295869_6671952987321461698_n.jpg', brandName: 'Max Pool' },
+  { title: 'Chlorine Shock Treatment', description: 'Pure, heavy-duty chlorination granules dedicated to killing algae and rapid bacteria oxidation.', category: 'cat-chemicals', brand: 'brand-maxpool', image: 'assets/images/alga.jpg', brandName: 'Max Pool' }
+];
 
 const CATEGORIES = [
   { name: 'Pool Pumps',            slug: 'cat-pumps',        description: 'طلمبات حمامات السباحة عالية الكفاءة',   icon: 'fa-solid fa-water' },
