@@ -7,6 +7,9 @@ const { protect }  = require('./middleware/auth');
 
 const app = express();
 
+// Trust proxy — required for Railway/Heroku/render.com
+app.set('trust proxy', 1);
+
 // CORS configuration
 app.use(cors({ 
   origin: process.env.CLIENT_ORIGIN ? process.env.CLIENT_ORIGIN.split(',') : '*', 
