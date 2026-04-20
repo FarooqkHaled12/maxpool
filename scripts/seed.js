@@ -19,7 +19,7 @@ const rawProducts = [
 
   // ── Filters ────────────────────────────────────────────────────────────
   { title: 'AstralPool Cantabric Filter',description: 'Premium Spanish fiberglass filter known for longevity in commercial applications.',                                 category: 'cat-filters',   brand: 'brand-astral',   brandName: 'AstralPool', image: 'assets/images/81Iws8JVg3L._AC_SL1500_.jpg',                              featured: true  },
-  { title: 'Max Pool Sand Filter 600mm', description: 'Exclusive robust fiberglass sand filter operating under high pressure for superior water clarity.',                 category: 'cat-filters',   brand: 'brand-maxpool',  brandName: 'Max Pool',   image: 'assets/images/WhatsApp Image 2026-01-06 at 12.26.48 PM.jpeg',            featured: true  },
+  { title: 'Max Pool Sand Filter 600mm', description: 'Exclusive robust fiberglass sand filter operating under high pressure for superior water clarity.',                 category: 'cat-filters',   brand: 'brand-maxpool',  brandName: 'Max Pool',   image: 'assets/images/maxpool-sand-filter-600mm.jpg',            featured: true  },
   { title: 'AstralPool Side-Mount Filter',description:'Side-mount sand filter with large filtration surface for high-flow commercial installations.',                     category: 'cat-filters',   brand: 'brand-astral',   brandName: 'AstralPool', image: 'assets/images/astral-equipment/astral-filter-11.jpg',                             featured: false },
   { title: 'AstralPool Top-Mount Filter',description: 'Compact top-mount filter ideal for residential pools with limited equipment room.',                                 category: 'cat-filters',   brand: 'brand-astral',   brandName: 'AstralPool', image: 'assets/images/astral-equipment/astral-filter-16.jpg',                             featured: false },
   { title: 'AstralPool Complete System', description: 'Full AstralPool filtration and circulation system — pump, filter, and fittings bundle.',                           category: 'cat-filters',   brand: 'brand-astral',   brandName: 'AstralPool', image: 'assets/images/astral-equipment/astral-system.jpg',                    featured: false },
@@ -112,5 +112,6 @@ const seed = async () => {
 };
 
 seed();
+
 
 
