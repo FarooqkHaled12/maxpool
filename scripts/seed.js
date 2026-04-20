@@ -1,4 +1,6 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+// Fix DNS resolution for MongoDB Atlas SRV records on some networks
+require('dns').setServers(['8.8.8.8', '8.8.4.4']);
 const mongoose = require('mongoose');
 const Product  = require('../models/Product');
 const Category = require('../models/Category');
