@@ -30,8 +30,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// Static files
+// Static files — uploads (user-uploaded via admin)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Static files — public/images (seed images committed to git, survive Railway deploys)
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 // Import controllers
 const productController = require('./controllers/productController');
