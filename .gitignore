@@ -1,8 +1,5 @@
 node_modules/
 .env
-uploads/products/*.jpg
-uploads/products/*.jpeg
-uploads/products/*.png
-uploads/products/*.webp
+# uploads/products images are tracked in git for Railway deployment
 *.log
 .DS_Store
