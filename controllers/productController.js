@@ -14,12 +14,33 @@ exports.getProducts = async (req, res) => {
     try {
       const jsonPath = path.join(__dirname, '../../data/products.json');
       const rawData = fs.readFileSync(jsonPath, 'utf8');
-      const products = JSON.parse(rawData);
-      console.log('[Fallback] Loaded products from JSON:', products.length);
-      return res.json({ 
-        success: true, 
-        products: products.slice(0, 12),
-        pagination: { total: products.length, page: 1, limit: 12, pages: 1 }
+      let allProducts = JSON.parse(rawData);
+
+      // Apply category / brand / search filters
+      const { category, brand, search } = req.query;
+      if (category) allProducts = allProducts.filter(p => p.category === category);
+      if (brand)    allProducts = allProducts.filter(p => p.brand === brand);
+      if (search) {
+        const q = search.toLowerCase();
+        allProducts = allProducts.filter(p =>
+          (p.name  || p.title || '').toLowerCase().includes(q) ||
+          (p.description || '').toLowerCase().includes(q) ||
+          (p.brandName   || '').toLowerCase().includes(q)
+        );
+      }
+
+      // Pagination
+      const page  = Math.max(1, parseInt(req.query.page)  || 1);
+      const limit = Math.min(50, parseInt(req.query.limit) || 12);
+      const total = allProducts.length;
+      const pages = Math.ceil(total / limit) || 1;
+      const products = allProducts.slice((page - 1) * limit, page * limit);
+
+      console.log('[Fallback] Loaded products from JSON:', products.length, '/', total);
+      return res.json({
+        success: true,
+        products,
+        pagination: { total, page, limit, pages, hasNext: page < pages, hasPrev: page > 1 }
       });
     } catch (fallbackError) {
       console.error('[Fallback] Error reading products.json:', fallbackError);
@@ -46,12 +67,32 @@ exports.getProducts = async (req, res) => {
     try {
       const jsonPath = path.join(__dirname, '../../data/products.json');
       const rawData = fs.readFileSync(jsonPath, 'utf8');
-      const products = JSON.parse(rawData);
-      console.log('[Fallback] Loaded products from JSON:', products.length);
-      res.json({ 
-        success: true, 
-        products: products.slice(0, 12),
-        pagination: { total: products.length, page: 1, limit: 12, pages: 1 }
+      let allProducts = JSON.parse(rawData);
+
+      // Apply same filters
+      const { category, brand, search } = req.query;
+      if (category) allProducts = allProducts.filter(p => p.category === category);
+      if (brand)    allProducts = allProducts.filter(p => p.brand === brand);
+      if (search) {
+        const q = search.toLowerCase();
+        allProducts = allProducts.filter(p =>
+          (p.name  || p.title || '').toLowerCase().includes(q) ||
+          (p.description || '').toLowerCase().includes(q) ||
+          (p.brandName   || '').toLowerCase().includes(q)
+        );
+      }
+
+      const page  = Math.max(1, parseInt(req.query.page)  || 1);
+      const limit = Math.min(50, parseInt(req.query.limit) || 12);
+      const total = allProducts.length;
+      const pages = Math.ceil(total / limit) || 1;
+      const products = allProducts.slice((page - 1) * limit, page * limit);
+
+      console.log('[Fallback] Loaded products from JSON:', products.length, '/', total);
+      res.json({
+        success: true,
+        products,
+        pagination: { total, page, limit, pages, hasNext: page < pages, hasPrev: page > 1 }
       });
     } catch (fallbackError) {
       console.error('[Fallback] Error reading products.json:', fallbackError);
