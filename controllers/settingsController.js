@@ -1,4 +1,4 @@
-const asyncHandler  = require('../middleware/asyncHandler');
+﻿const asyncHandler  = require('../middleware/asyncHandler');
 const SiteSettings  = require('../models/SiteSettings');
 
 const DEFAULTS = [
@@ -27,12 +27,30 @@ const DEFAULTS = [
   { key: 'meta_title_ar',   value: 'ماكس بول مصر — معدات حمامات السباحة',    group: 'seo', label: 'Meta Title (AR)', type: 'text' },
   { key: 'meta_desc_en',    value: "Egypt's leading swimming pool equipment supplier.", group: 'seo', label: 'Meta Description (EN)', type: 'textarea' },
   { key: 'meta_desc_ar',    value: 'المورد الرائد لمعدات حمامات السباحة في مصر.',      group: 'seo', label: 'Meta Description (AR)', type: 'textarea' },
+  // Pricing — Pool Construction
+  { key: 'price_skimmer_home_min',   value: '150000', group: 'pricing', label: 'Skimmer Home Pool — Min (EGP)', type: 'number' },
+  { key: 'price_skimmer_home_max',   value: '250000', group: 'pricing', label: 'Skimmer Home Pool — Max (EGP)', type: 'number' },
+  { key: 'price_skimmer_villa_min',  value: '250000', group: 'pricing', label: 'Skimmer Villa Pool — Min (EGP)', type: 'number' },
+  { key: 'price_skimmer_villa_max',  value: '400000', group: 'pricing', label: 'Skimmer Villa Pool — Max (EGP)', type: 'number' },
+  { key: 'price_overflow_villa_min', value: '400000', group: 'pricing', label: 'Overflow Villa Pool — Min (EGP)', type: 'number' },
+  { key: 'price_overflow_villa_max', value: '650000', group: 'pricing', label: 'Overflow Villa Pool — Max (EGP)', type: 'number' },
+  { key: 'price_commercial_min',     value: '600000', group: 'pricing', label: 'Commercial Hotel Pool — Min (EGP)', type: 'number' },
+  { key: 'price_commercial_max',     value: '1200000', group: 'pricing', label: 'Commercial Hotel Pool — Max (EGP)', type: 'number' },
+  { key: 'price_fiberglass_min',     value: '120000', group: 'pricing', label: 'Fiberglass Pool — Min (EGP)', type: 'number' },
+  { key: 'price_fiberglass_max',     value: '200000', group: 'pricing', label: 'Fiberglass Pool — Max (EGP)', type: 'number' },
 ];
 
 exports.getSettings = asyncHandler(async (_req, res) => {
   let settings = await SiteSettings.find({});
   if (settings.length === 0) {
     await SiteSettings.insertMany(DEFAULTS);
+    settings = await SiteSettings.find({});
+  }
+  // Upsert any missing defaults (e.g. new pricing keys added later)
+  const existingKeys = new Set(settings.map(s => s.key));
+  const missing = DEFAULTS.filter(d => !existingKeys.has(d.key));
+  if (missing.length > 0) {
+    await SiteSettings.insertMany(missing);
     settings = await SiteSettings.find({});
   }
   const map = {};
